@@ -1,0 +1,1101 @@
+
+                        <!DOCTYPE html>
+                        <html lang="en">
+                        <head>
+                            <meta charset="UTF-8">
+                            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+							<style>
+								body {
+									background-color: white; /* Ensure the iframe has a white background */
+								}
+
+								
+							</style>
+                        </head>
+                        <body>
+                            <!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Google Sites → WordPress Migrator v2.0</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --blue:#005596;--blue-mid:#4D88B6;--blue-light:#CCE0F0;
+  --deep:#003762;--pampas:#EBE6E0;--outer:#2F373D;--white:#FFFFFF;
+  --green:#2e7d32;--green-bg:#e8f5e9;--amber:#e65100;--amber-bg:#fff3e0;
+  --red:#c62828;--red-bg:#ffebee;--purple:#6a1b9a;--purple-bg:#f3e5f5;
+  --teal:#00695c;--teal-bg:#e0f2f1;--radius:10px;--shadow:0 2px 12px rgba(0,0,0,.12);
+}
+body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--pampas);color:var(--outer);min-height:100vh;}
+
+/* Header */
+header{background:linear-gradient(135deg,var(--deep) 0%,var(--blue) 100%);color:var(--white);padding:22px 32px;display:flex;align-items:center;gap:16px;box-shadow:var(--shadow);}
+header .icon{font-size:2rem;}
+header h1{font-size:1.4rem;font-weight:700;}
+header p{font-size:.85rem;opacity:.85;margin-top:2px;}
+.version-badge{background:rgba(255,255,255,.2);border-radius:20px;padding:3px 10px;font-size:.72rem;font-weight:700;margin-left:10px;vertical-align:middle;}
+
+/* Layout */
+main{display:grid;grid-template-columns:420px 1fr;gap:24px;padding:24px 32px;max-width:1500px;margin:0 auto;}
+@media(max-width:960px){main{grid-template-columns:1fr;}}
+
+/* Panel */
+.panel{background:var(--white);border-radius:var(--radius);box-shadow:var(--shadow);padding:22px;display:flex;flex-direction:column;gap:14px;}
+.panel-title{font-size:.95rem;font-weight:700;color:var(--blue);display:flex;align-items:center;gap:8px;border-bottom:2px solid var(--pampas);padding-bottom:10px;}
+
+/* Upload Zone */
+.upload-zone{border:3px dashed var(--blue-light);border-radius:12px;padding:32px 20px;text-align:center;cursor:pointer;transition:all .2s;background:#fafcff;position:relative;}
+.upload-zone:hover,.upload-zone.dragover{border-color:var(--blue);background:var(--blue-light);}
+.upload-zone input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%;}
+.upload-icon{font-size:2.5rem;margin-bottom:8px;}
+.upload-title{font-size:1rem;font-weight:700;color:var(--blue);margin-bottom:4px;}
+.upload-sub{font-size:.8rem;color:#888;line-height:1.5;}
+
+/* OR divider */
+.or-divider{display:flex;align-items:center;gap:10px;color:#bbb;font-size:.8rem;font-weight:600;}
+.or-divider::before,.or-divider::after{content:'';flex:1;height:1px;background:#e0e0e0;}
+
+/* Textarea */
+textarea{width:100%;min-height:160px;border:2px solid var(--blue-light);border-radius:8px;padding:12px;font-size:.85rem;font-family:'Courier New',monospace;resize:vertical;transition:border-color .2s;background:#fafcff;line-height:1.6;}
+textarea:focus{outline:none;border-color:var(--blue);}
+textarea::placeholder{color:#aab;}
+
+/* Buttons */
+.btn-row{display:flex;gap:8px;flex-wrap:wrap;}
+button{cursor:pointer;border:none;border-radius:7px;font-size:.88rem;font-weight:600;padding:9px 18px;transition:transform .1s,background .15s;}
+button:active{transform:scale(.97);}
+.btn-primary{background:var(--blue);color:var(--white);}
+.btn-primary:hover{background:var(--deep);}
+.btn-secondary{background:var(--pampas);color:var(--outer);}
+.btn-secondary:hover{background:#d8d2cb;}
+.btn-danger{background:var(--red-bg);color:var(--red);}
+.btn-word{background:#2b579a;color:#fff;}
+.btn-word:hover{background:#1e3f6e;}
+.btn-print{background:#333;color:#fff;}
+.btn-print:hover{background:#111;}
+
+/* File loaded bar */
+.file-loaded{background:var(--green-bg);border-radius:8px;padding:10px 14px;font-size:.83rem;color:var(--green);display:flex;align-items:center;gap:8px;font-weight:600;}
+
+/* Stats pills */
+.pills{display:flex;flex-wrap:wrap;gap:6px;}
+.pill{border-radius:20px;padding:4px 12px;font-size:.76rem;font-weight:600;display:inline-flex;align-items:center;gap:4px;}
+.pill-blue{background:var(--blue-light);color:var(--deep);}
+.pill-green{background:var(--green-bg);color:var(--green);}
+.pill-amber{background:var(--amber-bg);color:var(--amber);}
+.pill-red{background:var(--red-bg);color:var(--red);}
+
+/* Stats row */
+.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;}
+.stat-box{background:var(--pampas);border-radius:8px;padding:8px 10px;text-align:center;}
+.stat-num{font-size:1.4rem;font-weight:800;color:var(--blue);}
+.stat-lbl{font-size:.7rem;color:#777;margin-top:1px;}
+
+/* Tabs */
+.tabs{display:flex;gap:3px;flex-wrap:wrap;border-bottom:2px solid var(--pampas);}
+.tab-btn{background:none;border:none;border-radius:7px 7px 0 0;padding:7px 12px;font-size:.8rem;font-weight:600;color:#888;cursor:pointer;transition:background .15s,color .15s;}
+.tab-btn.active{background:var(--blue);color:#fff;}
+.tab-btn:hover:not(.active){background:var(--pampas);}
+.tab-panel{display:none;flex-direction:column;gap:12px;}
+.tab-panel.active{display:flex;}
+
+/* Rec cards */
+.rec-card{border-radius:9px;border:2px solid transparent;padding:14px 16px;position:relative;}
+.rec-1{border-color:var(--blue);background:#f0f7ff;}
+.rec-2{border-color:var(--blue-mid);background:#f7fbff;}
+.rec-3{border-color:#90a4ae;background:#f9fafb;}
+.rec-badge{position:absolute;top:10px;right:12px;border-radius:20px;padding:2px 9px;font-size:.7rem;font-weight:700;}
+.rec-1 .rec-badge{background:var(--blue);color:#fff;}
+.rec-2 .rec-badge{background:var(--blue-mid);color:#fff;}
+.rec-3 .rec-badge{background:#90a4ae;color:#fff;}
+.rec-title{font-size:.95rem;font-weight:700;color:var(--deep);margin-bottom:5px;}
+.rec-why{font-size:.82rem;color:#555;margin-bottom:8px;line-height:1.5;}
+.rec-blocks{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:8px;}
+.block-tag{background:var(--blue-light);color:var(--deep);border-radius:6px;padding:3px 9px;font-size:.74rem;font-weight:600;}
+.score-bar-wrap{display:flex;align-items:center;gap:8px;}
+.score-bar{flex:1;height:6px;background:#e0e7ef;border-radius:4px;overflow:hidden;}
+.score-bar-fill{height:100%;background:var(--blue);border-radius:4px;transition:width .6s ease;}
+.score-pct{font-size:.76rem;font-weight:700;color:var(--blue);min-width:34px;text-align:right;}
+
+/* ── WIZARD ── */
+.wizard-header{background:linear-gradient(135deg,var(--deep),var(--blue));color:#fff;border-radius:9px;padding:14px 18px;display:flex;align-items:center;justify-content:space-between;gap:10px;}
+.wizard-title{font-size:1rem;font-weight:700;}
+.wizard-progress-wrap{flex:1;max-width:200px;}
+.wizard-progress-bar{height:6px;background:rgba(255,255,255,.3);border-radius:4px;overflow:hidden;margin-top:4px;}
+.wizard-progress-fill{height:100%;background:#fff;border-radius:4px;transition:width .4s;}
+.wizard-pct{font-size:.75rem;opacity:.85;margin-top:2px;}
+
+.wizard-step{border-radius:9px;border:2px solid var(--blue-light);overflow:hidden;transition:border-color .2s;}
+.wizard-step.active-step{border-color:var(--blue);box-shadow:0 3px 14px rgba(0,85,150,.12);}
+.wizard-step.done-step{border-color:var(--green);background:var(--green-bg);}
+
+.step-header{display:flex;align-items:center;gap:10px;padding:11px 14px;cursor:pointer;user-select:none;}
+.step-header:hover{background:rgba(0,0,0,.02);}
+.step-num{width:28px;height:28px;border-radius:50%;background:var(--blue);color:#fff;font-size:.78rem;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.done-step .step-num{background:var(--green);}
+.step-title-wrap{flex:1;}
+.step-title{font-size:.88rem;font-weight:700;color:var(--deep);}
+.step-subtitle{font-size:.75rem;color:#888;}
+.step-check{font-size:1.1rem;}
+
+.step-body{padding:0 14px 14px 52px;display:none;}
+.step-body.open{display:block;}
+
+.step-wp-block{background:var(--blue-light);border-radius:7px;padding:9px 12px;margin-bottom:10px;display:flex;align-items:center;gap:8px;}
+.step-wp-block .block-name{font-size:.85rem;font-weight:700;color:var(--deep);}
+.step-wp-block .block-path{font-size:.75rem;color:var(--blue-mid);}
+
+.step-instructions{list-style:none;display:flex;flex-direction:column;gap:6px;margin-bottom:12px;}
+.step-instructions li{display:flex;align-items:flex-start;gap:8px;font-size:.82rem;line-height:1.55;padding:7px 10px;border-radius:7px;background:var(--white);}
+.step-instructions li .inst-num{background:var(--blue);color:#fff;border-radius:50%;width:20px;height:20px;font-size:.7rem;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;}
+.step-instructions li input[type=checkbox]{margin-top:3px;accent-color:var(--blue);flex-shrink:0;cursor:pointer;}
+.step-instructions li.done-inst label{text-decoration:line-through;color:#aaa;}
+
+.step-content-preview{background:#f8f8f8;border-radius:7px;padding:10px 12px;font-family:'Courier New',monospace;font-size:.78rem;line-height:1.6;color:#444;white-space:pre-wrap;word-break:break-word;border-left:4px solid var(--blue-light);margin-bottom:10px;max-height:120px;overflow-y:auto;}
+
+.step-btn-row{display:flex;gap:8px;}
+.btn-mark-done{background:var(--green);color:#fff;padding:7px 16px;font-size:.82rem;}
+.btn-mark-done:hover{background:#1b5e20;}
+.btn-mark-undone{background:var(--pampas);color:var(--outer);padding:7px 16px;font-size:.82rem;}
+
+/* Annotated */
+.annotated-wrap{display:flex;flex-direction:column;gap:8px;}
+.anno-section{border-radius:9px;border-left:5px solid #ccc;background:#fafafa;overflow:hidden;}
+.anno-section:hover{box-shadow:0 3px 14px rgba(0,0,0,.08);}
+.anno-header{display:flex;align-items:center;justify-content:space-between;padding:8px 12px;gap:8px;flex-wrap:wrap;cursor:pointer;user-select:none;}
+.anno-tag{display:inline-flex;align-items:center;gap:5px;border-radius:20px;padding:3px 10px;font-size:.72rem;font-weight:700;white-space:nowrap;flex-shrink:0;}
+.anno-feature-label{font-size:.76rem;font-weight:600;color:#444;flex:1;}
+.anno-toggle{font-size:.72rem;color:#999;}
+.anno-body{padding:0 12px 10px 12px;}
+.anno-content-text{font-family:'Courier New',monospace;font-size:.78rem;color:#333;line-height:1.6;white-space:pre-wrap;word-break:break-word;background:rgba(255,255,255,.7);border-radius:6px;padding:8px 10px;margin-bottom:8px;border:1px solid rgba(0,0,0,.07);max-height:120px;overflow-y:auto;}
+.anno-reason{font-size:.78rem;color:#555;line-height:1.5;padding:7px 10px;border-radius:6px;background:rgba(255,255,255,.8);}
+.cat-hero{border-left-color:#005596;} .cat-hero .anno-header{background:#e8f1fa;} .cat-hero .anno-tag{background:#005596;color:#fff;}
+.cat-nav-structure{border-left-color:#4D88B6;} .cat-nav-structure .anno-header{background:#ddeef9;} .cat-nav-structure .anno-tag{background:#4D88B6;color:#fff;}
+.cat-faq{border-left-color:#f57f17;} .cat-faq .anno-header{background:#fffde7;} .cat-faq .anno-tag{background:#f57f17;color:#fff;}
+.cat-event{border-left-color:#1565c0;} .cat-event .anno-header{background:#e3f2fd;} .cat-event .anno-tag{background:#1565c0;color:#fff;}
+.cat-form{border-left-color:#2e7d32;} .cat-form .anno-header{background:#e8f5e9;} .cat-form .anno-tag{background:#2e7d32;color:#fff;}
+.cat-blog{border-left-color:#e65100;} .cat-blog .anno-header{background:#fff3e0;} .cat-blog .anno-tag{background:#e65100;color:#fff;}
+.cat-community{border-left-color:#c62828;} .cat-community .anno-header{background:#ffebee;} .cat-community .anno-tag{background:#c62828;color:#fff;}
+.cat-content{border-left-color:#6a1b9a;} .cat-content .anno-header{background:#f3e5f5;} .cat-content .anno-tag{background:#6a1b9a;color:#fff;}
+.legend{display:flex;flex-wrap:wrap;gap:6px;padding:8px 0;border-bottom:2px solid var(--pampas);margin-bottom:4px;}
+.legend-item{display:flex;align-items:center;gap:4px;font-size:.72rem;font-weight:600;}
+.legend-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0;}
+
+/* Warnings */
+.warn-item{border-radius:7px;padding:9px 12px;font-size:.82rem;display:flex;gap:8px;align-items:flex-start;line-height:1.5;}
+.warn-red{background:var(--red-bg);color:var(--red);}
+.warn-amber{background:var(--amber-bg);color:var(--amber);}
+.warn-green{background:var(--green-bg);color:var(--green);}
+
+/* Checklist */
+.checklist{list-style:none;display:flex;flex-direction:column;gap:7px;}
+.checklist li{display:flex;align-items:flex-start;gap:9px;font-size:.84rem;line-height:1.5;padding:8px 11px;border-radius:7px;background:var(--pampas);}
+.checklist li input[type=checkbox]{margin-top:2px;width:15px;height:15px;accent-color:var(--blue);flex-shrink:0;cursor:pointer;}
+.checklist li label{cursor:pointer;}
+.checklist li.done label{text-decoration:line-through;color:#999;}
+
+/* Extras */
+.extra-card{background:var(--pampas);border-radius:8px;padding:11px 13px;}
+.extra-card .extra-title{font-weight:700;font-size:.88rem;margin-bottom:3px;}
+.extra-card .extra-desc{font-size:.8rem;color:#555;line-height:1.5;}
+
+/* Placeholder */
+.placeholder-msg{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#bbb;gap:10px;text-align:center;padding:40px 20px;}
+.placeholder-msg .big-icon{font-size:3rem;}
+.placeholder-msg p{font-size:.88rem;max-width:260px;line-height:1.6;}
+
+/* Word export (hidden printable) */
+#wordExportArea{display:none;}
+
+/* ── WORD EXPORT STYLES (apply inside the export) ── */
+.word-doc{font-family:Calibri,sans-serif;font-size:11pt;color:#000;max-width:900px;margin:0 auto;padding:40px;}
+.word-doc h1{font-size:18pt;color:#003762;border-bottom:2pt solid #005596;padding-bottom:6pt;margin-bottom:12pt;}
+.word-doc h2{font-size:14pt;color:#005596;margin:16pt 0 6pt;}
+.word-doc h3{font-size:11pt;color:#2F373D;font-weight:700;margin:10pt 0 4pt;}
+.word-doc p{margin-bottom:8pt;line-height:1.5;}
+.word-doc ul{margin:0 0 8pt 20pt;}
+.word-doc li{margin-bottom:3pt;}
+.word-doc .section-block{border-left:4pt solid #CCE0F0;padding-left:12pt;margin-bottom:16pt;}
+.word-doc .wp-note{background:#EBE6E0;border-radius:4pt;padding:8pt 10pt;font-size:10pt;color:#003762;margin:8pt 0;}
+.word-doc .step-box{background:#f0f7ff;border:1pt solid #CCE0F0;border-radius:4pt;padding:10pt;margin:8pt 0;}
+.word-doc .step-box h3{color:#005596;margin-top:0;}
+.word-doc table{border-collapse:collapse;width:100%;margin:8pt 0;}
+.word-doc td,th{border:1pt solid #ccc;padding:6pt 8pt;font-size:10pt;}
+.word-doc th{background:#005596;color:#fff;}
+
+footer{text-align:center;padding:16px;font-size:.75rem;color:#aaa;}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="icon">🔄</div>
+  <div>
+    <h1>Google Sites → WordPress Migrator <span class="version-badge">v2.0</span></h1>
+    <p>Upload your Google Sites HTML file or paste content — get a full WordPress build wizard + Word export</p>
+  </div>
+</header>
+
+<main>
+
+<!-- ═══ LEFT PANEL: Input ═══ -->
+<div class="panel">
+  <div class="panel-title">📂 Import Your Google Site</div>
+
+  <!-- Upload zone -->
+  <div class="upload-zone" id="uploadZone">
+    <input type="file" id="fileInput" accept=".html,.htm" onchange="handleFileUpload(event)"/>
+    <div class="upload-icon">📄</div>
+    <div class="upload-title">Drop your HTML file here</div>
+    <div class="upload-sub">or click to browse<br/>Save Google Site: <strong>Ctrl+S → "Webpage, Complete"</strong></div>
+  </div>
+
+  <div id="fileLoadedBar" style="display:none;" class="file-loaded">
+    ✅ <span id="fileLoadedName"></span>
+  </div>
+
+  <!-- How to save instructions -->
+  
+
+  <div class="or-divider">OR paste text directly</div>
+
+  <textarea id="contentInput" placeholder="Paste any Google Sites page text here as an alternative…"></textarea>
+
+  <div class="btn-row">
+    <button class="btn-primary"   onclick="analyze()">⚡ Analyze & Build Wizard</button>
+    <button class="btn-secondary" onclick="loadDemo()">🎯 Demo</button>
+    <button class="btn-danger"    onclick="clearAll()">✕ Clear</button>
+  </div>
+
+  <div id="statsArea" style="display:none;">
+    <div class="panel-title" style="margin-bottom:8px;">📊 Content Detected</div>
+    <div class="stats-row" id="statsRow"></div>
+    <div class="pills" id="pillsRow" style="margin-top:8px;"></div>
+  </div>
+</div>
+
+<!-- ═══ RIGHT PANEL: Results ═══ -->
+<div class="panel" id="resultsPanel" style="min-height:600px;">
+  <div class="panel-title" style="justify-content:space-between;">
+    <span>✨ WordPress Migration Plan</span>
+    <div class="btn-row" id="exportBtns" style="display:none;gap:6px;">
+      <button class="btn-word"  onclick="exportWord()">📄 Export to Word</button>
+      <button class="btn-print" onclick="printWizard()">🖨️ Print Guide</button>
+    </div>
+  </div>
+
+  <div class="placeholder-msg" id="placeholderMsg">
+    <div class="big-icon">🏗️</div>
+    <p>Upload your Google Sites HTML or paste content, then click <strong>Analyze & Build Wizard</strong>.</p>
+  </div>
+
+  <div id="resultsContent" style="display:none;flex-direction:column;gap:14px;">
+    <div class="tabs">
+      <button class="tab-btn active" onclick="switchTab('wizard',this)">🧙 Build Wizard</button>
+      <button class="tab-btn"        onclick="switchTab('annotated',this)">📝 Annotated</button>
+      <button class="tab-btn"        onclick="switchTab('recs',this)">🏆 Layouts</button>
+      <button class="tab-btn"        onclick="switchTab('checklist',this)">✅ Checklist</button>
+      <button class="tab-btn"        onclick="switchTab('warnings',this)">⚠️ Warnings</button>
+      <button class="tab-btn"        onclick="switchTab('extras',this)">💡 Extras</button>
+    </div>
+    <div class="tab-panel active" id="tab-wizard"></div>
+    <div class="tab-panel"        id="tab-annotated"></div>
+    <div class="tab-panel"        id="tab-recs"></div>
+    <div class="tab-panel"        id="tab-checklist"></div>
+    <div class="tab-panel"        id="tab-warnings"></div>
+    <div class="tab-panel"        id="tab-extras"></div>
+  </div>
+</div>
+</main>
+
+<div id="wordExportArea"></div>
+<footer>Google Sites → WordPress Migrator v2.0 · Runs 100% locally in your browser · No data is ever uploaded or stored</footer>
+
+<script>
+// ═══════════════════════════════════════════
+//  FILE UPLOAD HANDLER
+// ═══════════════════════════════════════════
+let uploadedHTML = '';
+
+function handleFileUpload(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = (ev) => {
+    uploadedHTML = ev.target.result;
+    document.getElementById('fileLoadedBar').style.display = 'flex';
+    document.getElementById('fileLoadedName').textContent  = file.name + ' (' + Math.round(file.size/1024) + ' KB loaded)';
+    // Extract visible text into textarea as preview
+    const extracted = extractTextFromHTML(uploadedHTML);
+    document.getElementById('contentInput').value = extracted;
+  };
+  reader.readAsText(file);
+}
+
+// Drag-and-drop
+const zone = document.getElementById('uploadZone');
+zone.addEventListener('dragover', e => { e.preventDefault(); zone.classList.add('dragover'); });
+zone.addEventListener('dragleave', () => zone.classList.remove('dragover'));
+zone.addEventListener('drop', e => {
+  e.preventDefault(); zone.classList.remove('dragover');
+  const file = e.dataTransfer.files[0];
+  if (file && (file.name.endsWith('.html') || file.name.endsWith('.htm'))) {
+    const fakeEvt = { target: { files: [file] } };
+    handleFileUpload(fakeEvt);
+  } else { alert('Please drop an .html or .htm file.'); }
+});
+
+// ═══════════════════════════════════════════
+//  HTML PARSER — extract structured content
+// ═══════════════════════════════════════════
+function extractTextFromHTML(html) {
+  const parser = new DOMParser();
+  const doc    = parser.parseFromString(html, 'text/html');
+
+  // Remove scripts, styles, navs that are UI chrome
+  ['script','style','noscript','iframe'].forEach(tag =>
+    doc.querySelectorAll(tag).forEach(el => el.remove()));
+
+  // Walk headings and paragraphs in order
+  const lines = [];
+  const walk  = (el) => {
+    if (!el || el.nodeType !== 1) return;
+    const tag = el.tagName.toLowerCase();
+    const txt = el.innerText?.trim() || el.textContent?.trim() || '';
+    if (!txt) { el.children && [...el.children].forEach(walk); return; }
+
+    if (/^h[1-4]$/.test(tag)) { lines.push(txt); }
+    else if (tag === 'p')     { if (txt.length > 2) lines.push(txt); }
+    else if (tag === 'li')    { lines.push('- ' + txt); }
+    else if (tag === 'a')     { /* captured by parent */ }
+    else { [...el.children].forEach(walk); }
+  };
+  walk(doc.body || doc.documentElement);
+
+  // Fallback: if walk yielded nothing, just grab all text
+  if (lines.filter(l => l.trim()).length < 3) {
+    return (doc.body || doc.documentElement).innerText || doc.documentElement.textContent || '';
+  }
+  return lines.join('\n');
+}
+
+// Deep HTML parse for richer structure
+function parseHTML(html) {
+  if (!html) return null;
+  const parser = new DOMParser();
+  const doc = parser.parseFromString(html, 'text/html');
+  ['script','style','noscript'].forEach(t => doc.querySelectorAll(t).forEach(el=>el.remove()));
+
+  const headings = [...doc.querySelectorAll('h1,h2,h3,h4')].map(el=>({level:+el.tagName[1], text:el.textContent.trim()}));
+  const images   = [...doc.querySelectorAll('img')].map(el=>({src:el.src||el.getAttribute('src')||'',alt:el.alt||''})).filter(i=>i.src);
+  const links    = [...doc.querySelectorAll('a[href]')].map(el=>({href:el.getAttribute('href'),text:el.textContent.trim()})).filter(l=>l.text);
+  const lists    = [...doc.querySelectorAll('ul,ol')].map(el=>({type:el.tagName.toLowerCase(), items:[...el.querySelectorAll('li')].map(li=>li.textContent.trim())}));
+  const forms    = [...doc.querySelectorAll('form,input,textarea,select')].length > 0;
+  const tables   = [...doc.querySelectorAll('table')].length;
+  const videos   = [...doc.querySelectorAll('video,iframe[src*="youtube"],iframe[src*="vimeo"]')].length > 0;
+
+  return { headings, images, links, lists, forms, tables, videos };
+}
+
+// ═══════════════════════════════════════════
+//  TEXT PARSER (same as v1)
+// ═══════════════════════════════════════════
+function parseContent(text) {
+  const lines       = text.split('\n').map(l=>l.trim()).filter(Boolean);
+  const bulletLines = lines.filter(l=>/^[-*•]\s/.test(l)||/^\d+\.\s/.test(l));
+  const nestedLines = lines.filter(l=>/^\s{2,}[-*•]/.test(l)||/^\t[-*•]/.test(l));
+  const listDepth   = nestedLines.length>0?(nestedLines.length>5?3:2):(bulletLines.length>0?1:0);
+  const wordCount   = text.split(/\s+/).filter(Boolean).length;
+  const sections    = lines.filter(l=>l.length>3&&l.length<80&&/^[A-Z]/.test(l)&&!/[.!?]$/.test(l)).length;
+  const listRatio   = bulletLines.length/Math.max(lines.length,1);
+  const kw=(arr)=>arr.some(k=>text.toLowerCase().includes(k.toLowerCase()));
+  const keywords={
+    hasForm:       kw(['form','register','registration','sign up','signup','apply','application','submit','intake','survey']),
+    hasEvent:      kw(['event','calendar','schedule','workshop','webinar','session','training date','upcoming']),
+    hasBlog:       kw(['blog','news','article','post','update','announcement','author','published']),
+    hasVideo:      kw(['video','watch','youtube','vimeo','recording','stream']),
+    hasFAQ:        kw(['faq','frequently asked','q&a','question','answer','how do i','what is','why is']),
+    hasNavigation: kw(['navigate','menu','section','chapter','table of contents','jump to','go to','next step']),
+    hasOnboarding: kw(['onboarding','getting started','welcome','introduction','new employee','new hire','orientation','first day']),
+    hasAdmin:      kw(['admin','administrator','user management','permissions','access','roles','settings']),
+    hasResource:   kw(['resource','library','catalog','repository','toolkit','guide','reference','template']),
+    hasCommunity:  kw(['community','discussion','thread','forum','feedback','idea','vote','collaborate']),
+    hasProgram:    kw(['program','initiative','project','launch','campaign','cohort','participant']),
+    hasMedia:      kw(['image','photo','gallery','infographic','download','attachment','file']),
+    hasMultiSection: lines.filter(l=>/^#{1,3}\s/.test(l)||/^[A-Z][^.!?]{3,40}$/.test(l)).length>4,
+    isLong:   wordCount>400, isMedium: wordCount>=150&&wordCount<=400, isShort: wordCount<150,
+  };
+  return {lines,bulletLines,nestedLines,listDepth,wordCount,sections,listRatio,keywords};
+}
+
+// ═══════════════════════════════════════════
+//  SECTION RULES (same as v1)
+// ═══════════════════════════════════════════
+const SECTION_RULES=[
+  {id:'hero',category:'cat-hero',icon:'🦸',label:'Hero Section',wpFeature:'Hero Block',
+   description:(lines)=>lines.join(' ').split(/\s+/).length<40?'Large Hero – No Image':'Banner Hero – Dark Off + Blurb',
+   reason:()=>'This is your page <strong>introduction or headline</strong> — use the Hero Block. Choose Large Hero for a bold entry point or Banner Hero if you have a short description.',
+   test:(text,lines,idx)=>{if(idx>0)return false;const kw=['welcome','introduction','about this','overview','what is','this portal','this site','this guide'];return kw.some(k=>text.toLowerCase().includes(k))||(lines.length<=5&&idx===0);},priority:10},
+  {id:'nav-structure',category:'cat-nav-structure',icon:'🗺️',label:'Navigation / Menu',wpFeature:'Left Navigation or Tiles',
+   description:()=>'Left Navigation + Tiles',
+   reason:()=>'This is a <strong>menu or navigation list</strong>. Map to <em>Left Navigation</em> (deep hierarchy) or <em>Tiles</em> (visual overview).',
+   test:(text,lines)=>{const bc=lines.filter(l=>/^[-*•]\s/.test(l)||/^\d+\.\s/.test(l)).length;const nk=['navigation','menu','contents','sections','table of contents','go to','jump to'];return nk.some(k=>text.toLowerCase().includes(k))||(bc>=3&&lines.length<=bc+3);},priority:9},
+  {id:'faq',category:'cat-faq',icon:'❓',label:'FAQ / Q&A',wpFeature:'Accordion Block',
+   description:()=>'Accordion / Accordion Search',
+   reason:()=>'<strong>Questions and answers</strong> — use the Accordion Block so users scan headings and expand only what they need.',
+   test:(text)=>{const kw=['how do i','how to','what is','why is','when do','who should','can i','faq','frequently asked','q:','a:'];return kw.filter(k=>text.toLowerCase().includes(k)).length>=2;},priority:8},
+  {id:'event',category:'cat-event',icon:'📅',label:'Events / Schedule',wpFeature:'Events Calendar',
+   description:()=>'Events Calendar (gWiz or Full Page)',
+   reason:()=>'<strong>Dates, events, or scheduled activities</strong> — use the Events Calendar block. Pair each event with a Form for registration.',
+   test:(text)=>{const kw=['event','calendar','schedule','workshop','webinar','session','orientation','upcoming','date –','date:',/\b(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)\b/i,/\d{4}/];return kw.filter(k=>k instanceof RegExp?k.test(text):text.toLowerCase().includes(k)).length>=2;},priority:8},
+  {id:'form',category:'cat-form',icon:'📋',label:'Form / Registration',wpFeature:'Forms Block',
+   description:()=>'Forms – Progress Bar or Steps / One Page',
+   reason:()=>'A <strong>form or registration flow</strong>. Choose One Page (simple), Progress Bar (medium), or Steps (multi-stage).',
+   test:(text)=>{const kw=['form','register','registration','sign up','apply','application','submit','intake','survey','your name','email address','first name','field'];return kw.filter(k=>text.toLowerCase().includes(k)).length>=2;},priority:8},
+  {id:'blog',category:'cat-blog',icon:'📝',label:'Blog / News',wpFeature:'Blog Block',
+   description:()=>'Blog – with Banner Hero',
+   reason:()=>'<strong>News, announcements, or blog posts</strong> — the Blog Block handles this natively with categories, tags, and author metadata.',
+   test:(text)=>{const kw=['blog','news','article','post','update','announcement','author','published','written by','read more'];return kw.filter(k=>text.toLowerCase().includes(k)).length>=2;},priority:7},
+  {id:'community',category:'cat-community',icon:'💬',label:'Community / Discussion',wpFeature:'Threads Block',
+   description:()=>'Threads – Discussion or Idea Mode',
+   reason:()=>'Designed for <strong>community interaction</strong>. Use Threads – Discussion Mode for open dialogue, or Idea Mode for upvoting.',
+   test:(text)=>{const kw=['community','discussion','thread','forum','feedback','idea','vote','collaborate','connect with','share your','join the conversation','peer'];return kw.filter(k=>text.toLowerCase().includes(k)).length>=2;},priority:7},
+  {id:'content',category:'cat-content',icon:'🧩',label:'Content Block',wpFeature:'Content Block',
+   description:(lines)=>{const t=lines.join(' ').toLowerCase();if(/step \d|step-by-step|\d+\.\s/.test(t))return'Content Flow – Step-by-Step';if(lines.filter(l=>/^[-*•]/.test(l)).length>4)return'Content Block + Accordion';return'Standard Content Block';},
+   reason:(lines)=>{const t=lines.join(' ').toLowerCase();if(/step \d|step-by-step|\d+\.\s/.test(t))return'<strong>Sequential process or steps</strong> — use Content Flow Features to guide users through numbered steps.';if(lines.filter(l=>/^[-*•]/.test(l)).length>4)return'<strong>Long bulleted list</strong> — convert to Accordion so users collapse items they don\'t need.';return'<strong>Standard content section</strong> — use a Content Block with H2 for section titles, H3 for subsections.';},
+   test:()=>true,priority:1}
+];
+
+function segmentContent(text){
+  const rawLines=text.split('\n').map(l=>l.trim());
+  const segments=[]; let current={lines:[],heading:''};
+  const isHeading=(l)=>/^#{1,4}\s/.test(l)||(l.length>2&&l.length<90&&/^[A-Z]/.test(l)&&!/[.!?,;]$/.test(l)&&!/^[-*•]/.test(l)&&!/^\d+\./.test(l));
+  for(const line of rawLines){
+    if(!line)continue;
+    if(isHeading(line)&&current.lines.length>0){segments.push({...current});current={lines:[line],heading:line};}
+    else if(isHeading(line)&&current.lines.length===0){current.heading=line;current.lines.push(line);}
+    else{current.lines.push(line);}
+  }
+  if(current.lines.length>0)segments.push(current);
+  const merged=[];
+  for(let i=0;i<segments.length;i++){
+    if(segments[i].lines.length<2&&merged.length>0)merged[merged.length-1].lines.push(...segments[i].lines);
+    else merged.push(segments[i]);
+  }
+  return merged;
+}
+
+function tagSection(segment,idx){
+  const text=segment.lines.join('\n'),lines=segment.lines;
+  const sorted=[...SECTION_RULES].sort((a,b)=>b.priority-a.priority);
+  for(const rule of sorted){if(rule.test(text,lines,idx)){return{...rule,resolvedDescription:rule.description(lines),resolvedReason:rule.reason(lines),segment};}}
+  const fb=SECTION_RULES.find(r=>r.id==='content');
+  return{...fb,resolvedDescription:fb.description(lines),resolvedReason:fb.reason(lines),segment};
+}
+
+// ═══════════════════════════════════════════
+//  WIZARD STEP BUILDER
+// ═══════════════════════════════════════════
+let wizardSteps = [];
+let wizardDone  = {};
+
+function buildWizardSteps(tagged, parsed, htmlMeta) {
+  const steps = [];
+  const k = parsed.keywords;
+
+  // Step 0: Site setup
+  steps.push({
+    title: 'Set Up Your WordPress Site Structure',
+    subtitle: 'Foundation — do this first',
+    icon: '🏗️',
+    wpBlock: { name: 'WordPress Admin → Pages', path: 'Dashboard → Pages → Add New' },
+    content: '',
+    instructions: [
+      'Log in to your WordPress dashboard',
+      'Go to <strong>Pages → Add New</strong> and create a page for each major section detected in your content',
+      'Set the page template to match your chosen layout (see 🏆 Layouts tab)',
+      'Under <strong>Settings → Reading</strong>, confirm your homepage is set correctly',
+      'Install and activate your WordPress theme if not already done',
+      'Check that all required plugins (Events Calendar, Forms, etc.) are installed',
+    ]
+  });
+
+  // Step 1: Hero
+  const heroSection = tagged.find(t => t.id === 'hero');
+  const heroDesc    = heroSection ? heroSection.resolvedDescription : (k.isLong ? 'Large Hero – Dark Off' : 'Small Hero – Dark Off');
+  steps.push({
+    title: 'Configure Your Hero Block',
+    subtitle: heroDesc,
+    icon: '🦸',
+    wpBlock: { name: heroDesc, path: 'Page Editor → Hero Block → Select Type' },
+    content: heroSection ? heroSection.segment.lines.join('\n') : '(No hero text detected — write a short headline and 1–2 sentence description)',
+    instructions: [
+      'Open your page in the WordPress editor',
+      'Add a <strong>Hero Block</strong> at the top of the page',
+      'Select hero type: <strong>' + heroDesc + '</strong>',
+      'Enter your headline text (copy from the content preview above)',
+      'Add a subheadline or blurb if applicable (keep under 2 lines)',
+      k.hasMedia ? 'Upload a hero image (recommended size: 1920×600px)' : 'No image required for this hero type',
+      'Toggle Dark Mode on/off to match your brand needs',
+      'Preview on both desktop and mobile before moving on',
+    ]
+  });
+
+  // Step 2: Navigation
+  const navSection = tagged.find(t => t.id === 'nav-structure');
+  const navItems   = navSection ? navSection.segment.lines.filter(l => /^[-*•]/.test(l)).map(l => l.replace(/^[-*•]\s*/,'')) : [];
+  steps.push({
+    title: 'Build Your Navigation',
+    subtitle: k.hasMultiSection || parsed.listDepth >= 2 ? 'Left Navigation + Breadcrumb' : 'Breadcrumb + Tiles',
+    icon: '🗺️',
+    wpBlock: { name: 'Left Navigation / Tiles', path: 'Page Editor → Navigation Block' },
+    content: navSection ? navSection.segment.lines.join('\n') : '(No explicit navigation detected — structure based on content sections)',
+    instructions: [
+      navItems.length > 0
+        ? 'Create pages for each navigation item: <strong>' + navItems.slice(0,5).join(', ') + (navItems.length>5?'…':'') + '</strong>'
+        : 'Create sub-pages for each major content section',
+      'Go to <strong>Appearance → Menus</strong> and add each page to your menu',
+      parsed.listDepth >= 2
+        ? 'Enable <strong>Left Navigation</strong> in your page template settings (handles deep hierarchy)'
+        : 'Add a <strong>Tiles Block</strong> below the hero for visual category navigation',
+      'Enable <strong>Breadcrumb</strong> in page settings so users always know where they are',
+      'Set active menu item highlighting so current page is visually indicated',
+      'Preview navigation on mobile — left nav collapses to a hamburger menu',
+    ]
+  });
+
+  // Steps for each detected content type
+  const contentTagged = tagged.filter(t => !['hero','nav-structure'].includes(t.id));
+
+  contentTagged.forEach((section, i) => {
+    const stepInstructions = getInstructionsForType(section, parsed);
+    steps.push({
+      title: 'Build Section: ' + (section.segment.heading || section.label),
+      subtitle: section.resolvedDescription,
+      icon: section.icon,
+      wpBlock: { name: section.wpFeature, path: 'Page Editor → Add Block → ' + section.wpFeature },
+      content: section.segment.lines.join('\n'),
+      instructions: stepInstructions,
+    });
+  });
+
+  // Final step: QA & Launch
+  steps.push({
+    title: 'QA, Accessibility & Launch',
+    subtitle: 'Final checks before going live',
+    icon: '🚀',
+    wpBlock: { name: 'WordPress Preview', path: 'Page Editor → Preview → Desktop + Mobile' },
+    content: '',
+    instructions: [
+      'Preview every page on <strong>desktop, tablet, and mobile</strong>',
+      'Check all links open correctly and no 404 errors appear',
+      'Confirm all images have <strong>alt text</strong> for accessibility',
+      'Set <strong>meta descriptions</strong> (150–160 chars) on every page',
+      'Run <strong>Lighthouse audit</strong> in Chrome DevTools (Ctrl+Shift+I → Lighthouse)',
+      'Share a preview link with 1–2 colleagues for a quick sanity check',
+      k.hasForm ? 'Test all form submissions — check confirmation emails arrive' : null,
+      k.hasEvent ? 'Confirm Events Calendar displays correctly and timezone is set' : null,
+      'Publish! 🎉',
+    ].filter(Boolean)
+  });
+
+  return steps;
+}
+
+function getInstructionsForType(section, parsed) {
+  const type = section.id;
+  const heading = section.segment.heading || 'this section';
+  const preview = section.segment.lines.slice(0,4).join(' ').substring(0,120);
+
+  const map = {
+    faq: [
+      'Add an <strong>Accordion Block</strong> to your page',
+      'Create one accordion item per question detected in this section',
+      'Use the question as the accordion <strong>header</strong>',
+      'Paste the answer into the accordion <strong>body</strong>',
+      parsed.keywords.hasFAQ && section.segment.lines.length > 10
+        ? 'Enable <strong>Accordion Search</strong> — you have many items and users will benefit from filtering'
+        : 'Group related questions under sub-headings if you have more than 8',
+      'Test that each accordion opens and closes correctly on mobile',
+    ],
+    event: [
+      'Install and activate the <strong>Events Calendar</strong> plugin if not already active',
+      'Go to <strong>Events → Add New</strong> for each event found in this section',
+      'Set date, time, location, and description for each event',
+      'Paste event content from above into the event description field',
+      'Add a <strong>Forms</strong> block or link for registration on each event page',
+      'Embed the <strong>Events Calendar Block</strong> on your page (Month, List, or Full Page Width view)',
+      'Set the correct timezone under Events → Settings → General',
+    ],
+    form: [
+      'Go to your Forms plugin (Gravity Forms, WPForms, or Formidable)',
+      'Create a new form — choose <strong>Progress Bar</strong> (medium) or <strong>Steps</strong> (long) layout',
+      'Add fields based on the content detected: ' + preview.substring(0,80) + '…',
+      'Set up a <strong>confirmation message</strong> and/or redirect after submission',
+      'Configure email notifications to the right recipient',
+      'Embed the form on your page using the <strong>Forms Block</strong>',
+      'Test the form submission end-to-end in an incognito window',
+    ],
+    blog: [
+      'Go to <strong>Posts → Add New</strong> for each blog/news item in this section',
+      'Set the correct <strong>category and tags</strong> for each post',
+      'Add a <strong>Blog Block</strong> or <strong>Post Grid Block</strong> to your page',
+      'Configure display options: show excerpt, author, date, featured image',
+      'Set up categories that match your content areas',
+      'Enable <strong>RSS feed</strong> so users can subscribe to updates',
+    ],
+    community: [
+      'Install and activate the <strong>Threads</strong> plugin/feature',
+      'Create a new Thread space for: <em>' + heading + '</em>',
+      'Choose mode: <strong>Discussion</strong> (open conversation) or <strong>Idea</strong> (upvoting)',
+      'Set moderation rules — who can post, who approves',
+      'Add a <strong>Community Guidelines</strong> accordion block near the top of the page',
+      'Configure email notifications for new replies',
+      'Embed the Thread on your page using the Threads Block',
+    ],
+    content: [
+      'Add a <strong>Content Block</strong> to your page',
+      'Set heading hierarchy: <strong>H2</strong> for section title, <strong>H3</strong> for subsections',
+      'Paste the content from: <em>' + heading + '</em>',
+      section.resolvedDescription.includes('Step')
+        ? 'Use <strong>Content Flow Features</strong> to format as numbered steps'
+        : section.resolvedDescription.includes('Accordion')
+          ? 'Convert the bullet list to an <strong>Accordion Block</strong> for better readability'
+          : 'Format paragraphs with appropriate line spacing and font size',
+      'Add a <strong>Call to Action</strong> button at the end of this section',
+      'Check that the content reads clearly on mobile (no line too wide)',
+    ],
+  };
+
+  return map[type] || [
+    'Add appropriate WordPress block for: ' + section.label,
+    'Paste content from this section into the block editor',
+    'Apply correct heading hierarchy (H2/H3)',
+    'Preview on mobile and desktop',
+  ];
+}
+
+// ═══════════════════════════════════════════
+//  RENDER WIZARD
+// ═══════════════════════════════════════════
+function renderWizard(steps) {
+  wizardSteps = steps;
+  wizardDone  = {};
+
+  const headerHTML = `
+    <div class="wizard-header">
+      <div>
+        <div class="wizard-title">🧙 WordPress Build Wizard</div>
+        <div style="font-size:.78rem;opacity:.8;margin-top:2px;">${steps.length} steps to migrate your site</div>
+      </div>
+      <div class="wizard-progress-wrap">
+        <div style="font-size:.75rem;opacity:.85;">Progress</div>
+        <div class="wizard-progress-bar"><div class="wizard-progress-fill" id="wizardProgressFill" style="width:0%"></div></div>
+        <div class="wizard-pct" id="wizardProgressPct">0 of ${steps.length} complete</div>
+      </div>
+    </div>`;
+
+  const stepsHTML = steps.map((step, i) => `
+    <div class="wizard-step" id="wstep-${i}">
+      <div class="step-header" onclick="toggleStep(${i})">
+        <div class="step-num" id="wnum-${i}">${i+1}</div>
+        <div class="step-title-wrap">
+          <div class="step-title">${step.icon} ${step.title}</div>
+          <div class="step-subtitle">${step.subtitle}</div>
+        </div>
+        <div class="step-check" id="wcheck-${i}">▼</div>
+      </div>
+      <div class="step-body" id="wbody-${i}" style="${i===0?'display:block;':''}">
+        <div class="step-wp-block">
+          <div>
+            <div class="block-name">📦 ${step.wpBlock.name}</div>
+            <div class="block-path">📍 ${step.wpBlock.path}</div>
+          </div>
+        </div>
+        ${step.content ? `<div class="step-content-preview">${escapeHtml(step.content)}</div>` : ''}
+        <ol class="step-instructions">
+          ${step.instructions.map((inst, j) => `
+            <li id="inst-${i}-${j}">
+              <input type="checkbox" id="icb-${i}-${j}" onchange="toggleInst(${i},${j},${step.instructions.length})"/>
+              <label for="icb-${i}-${j}">${inst}</label>
+            </li>`).join('')}
+        </ol>
+        <div class="step-btn-row">
+          <button class="btn-mark-done" onclick="markStepDone(${i})">✅ Mark Step Complete</button>
+          ${i < steps.length-1 ? `<button class="btn-secondary" onclick="goNextStep(${i})">Next Step →</button>` : ''}
+        </div>
+      </div>
+    </div>`).join('');
+
+  document.getElementById('tab-wizard').innerHTML = headerHTML + stepsHTML;
+
+  // Auto-open step 0
+  updateWizardProgress();
+}
+
+function toggleStep(i) {
+  const body  = document.getElementById(`wbody-${i}`);
+  const check = document.getElementById(`wcheck-${i}`);
+  const isOpen = body.style.display !== 'none';
+  body.style.display = isOpen ? 'none' : 'block';
+  check.textContent  = isOpen ? '▼' : '▲';
+}
+
+function toggleInst(stepIdx, instIdx, total) {
+  const li  = document.getElementById(`inst-${stepIdx}-${instIdx}`);
+  const cb  = document.getElementById(`icb-${stepIdx}-${instIdx}`);
+  li.classList.toggle('done-inst', cb.checked);
+}
+
+function markStepDone(i) {
+  wizardDone[i] = true;
+  document.getElementById(`wstep-${i}`).className = 'wizard-step done-step';
+  document.getElementById(`wnum-${i}`).textContent  = '✓';
+  document.getElementById(`wcheck-${i}`).textContent = '✓';
+  // Check all instructions
+  const body = document.getElementById(`wbody-${i}`);
+  body.querySelectorAll('input[type=checkbox]').forEach(cb => { cb.checked = true; cb.dispatchEvent(new Event('change')); });
+  updateWizardProgress();
+  goNextStep(i);
+}
+
+function goNextStep(i) {
+  const next = i + 1;
+  if (next >= wizardSteps.length) return;
+  // Open next, close current
+  document.getElementById(`wbody-${i}`).style.display    = 'none';
+  document.getElementById(`wcheck-${i}`).textContent     = '▼';
+  document.getElementById(`wbody-${next}`).style.display = 'block';
+  document.getElementById(`wcheck-${next}`).textContent  = '▲';
+  document.getElementById(`wstep-${next}`).scrollIntoView({behavior:'smooth', block:'nearest'});
+  document.getElementById(`wstep-${next}`).classList.add('active-step');
+}
+
+function updateWizardProgress() {
+  const done  = Object.keys(wizardDone).length;
+  const total = wizardSteps.length;
+  const pct   = Math.round(done / total * 100);
+  document.getElementById('wizardProgressFill').style.width = pct + '%';
+  document.getElementById('wizardProgressPct').textContent  = done + ' of ' + total + ' complete';
+}
+
+// ═══════════════════════════════════════════
+//  RENDER: Annotated, Recs, Warnings, Extras
+// ═══════════════════════════════════════════
+function renderStats(p){
+  document.getElementById('statsRow').innerHTML=`
+    <div class="stat-box"><div class="stat-num">${p.wordCount}</div><div class="stat-lbl">Words</div></div>
+    <div class="stat-box"><div class="stat-num">${p.sections}</div><div class="stat-lbl">Sections</div></div>
+    <div class="stat-box"><div class="stat-num">${p.bulletLines.length}</div><div class="stat-lbl">List Items</div></div>
+    <div class="stat-box"><div class="stat-num">${p.listDepth}</div><div class="stat-lbl">List Depth</div></div>`;
+  const k=p.keywords;const detected=[];
+  if(k.hasOnboarding)detected.push({label:'🧭 Onboarding',cls:'pill-blue'});
+  if(k.hasResource)  detected.push({label:'📚 Resources', cls:'pill-blue'});
+  if(k.hasFAQ)       detected.push({label:'❓ FAQ',        cls:'pill-blue'});
+  if(k.hasEvent)     detected.push({label:'📅 Events',     cls:'pill-green'});
+  if(k.hasBlog)      detected.push({label:'📝 Blog',       cls:'pill-green'});
+  if(k.hasVideo)     detected.push({label:'🎬 Video',      cls:'pill-amber'});
+  if(k.hasForm)      detected.push({label:'📋 Forms',      cls:'pill-amber'});
+  if(k.hasAdmin)     detected.push({label:'⚙️ Admin',      cls:'pill-red'});
+  if(k.hasCommunity) detected.push({label:'💬 Community',  cls:'pill-green'});
+  if(k.hasProgram)   detected.push({label:'🚀 Program',    cls:'pill-blue'});
+  if(k.hasNavigation)detected.push({label:'🗺️ Navigation', cls:'pill-blue'});
+  if(k.hasMedia)     detected.push({label:'🖼️ Media',      cls:'pill-amber'});
+  document.getElementById('pillsRow').innerHTML=detected.length
+    ?detected.map(d=>`<span class="pill ${d.cls}">${d.label}</span>`).join('')
+    :'<span class="pill pill-blue">📄 General Content</span>';
+}
+
+function renderAnnotated(text){
+  const segments=segmentContent(text);
+  const tagged=segments.map((seg,i)=>tagSection(seg,i));
+  const seenCats=[...new Set(tagged.map(t=>t.category))];
+  const catMeta={'cat-hero':{label:'Hero',color:'#005596'},'cat-nav-structure':{label:'Navigation',color:'#4D88B6'},'cat-faq':{label:'FAQ',color:'#f57f17'},'cat-event':{label:'Events',color:'#1565c0'},'cat-form':{label:'Forms',color:'#2e7d32'},'cat-blog':{label:'Blog',color:'#e65100'},'cat-community':{label:'Community',color:'#c62828'},'cat-content':{label:'Content Block',color:'#6a1b9a'}};
+  const legendHTML=`<div class="legend">${seenCats.map(c=>`<div class="legend-item"><div class="legend-dot" style="background:${catMeta[c]?.color||'#ccc'}"></div><span>${catMeta[c]?.label||c}</span></div>`).join('')}</div><p style="font-size:.76rem;color:#888;margin-bottom:4px;">Click any section to expand ↓</p>`;
+  const sectionsHTML=tagged.map((t,i)=>`
+    <div class="anno-section ${t.category}" id="anno-${i}">
+      <div class="anno-header" onclick="toggleAnno(${i})">
+        <span class="anno-tag">${t.icon} ${t.label}</span>
+        <span class="anno-feature-label">→ ${t.resolvedDescription}</span>
+        <span class="anno-toggle" id="anno-toggle-${i}">▼</span>
+      </div>
+      <div class="anno-body" id="anno-body-${i}" style="display:none;">
+        <div class="anno-content-text">${escapeHtml(t.segment.lines.join('\n'))}</div>
+        <div class="anno-reason">💡 <strong>Why?</strong> ${t.resolvedReason}</div>
+      </div>
+    </div>`).join('');
+  document.getElementById('tab-annotated').innerHTML=legendHTML+`<div class="annotated-wrap">${sectionsHTML}</div>`;
+}
+
+function toggleAnno(i){const b=document.getElementById(`anno-body-${i}`),t=document.getElementById(`anno-toggle-${i}`),o=b.style.display!=='none';b.style.display=o?'none':'block';t.textContent=o?'▼':'▲';}
+
+function renderRecs(recs){
+  const cls=['rec-1','rec-2','rec-3'],badges=['🥇 Best Match','🥈 Runner-Up','🥉 Alternative'];
+  document.getElementById('tab-recs').innerHTML=recs.map((r,i)=>`
+    <div class="rec-card ${cls[i]}">
+      <span class="rec-badge">${badges[i]}</span>
+      <div class="rec-title">${r.title}</div>
+      <div class="rec-why">${r.why}</div>
+      <div class="rec-blocks"><span class="block-tag">🦸 ${r.hero}</span><span class="block-tag">🗺️ ${r.nav}</span>${r.blocks.map(b=>`<span class="block-tag">🧩 ${b}</span>`).join('')}</div>
+      <div class="score-bar-wrap"><div class="score-bar"><div class="score-bar-fill" style="width:${r.score}%"></div></div><span class="score-pct">${r.score}%</span></div>
+    </div>`).join('');
+}
+
+function renderChecklist(rec){
+  const items=[...rec.checklist,'Preview on desktop AND mobile before publishing','Run accessibility check (alt text, captions, contrast)','Check meta description is set (150–160 chars)','Get a second pair of eyes before going live'];
+  let html='<p style="font-size:.82rem;color:#666;margin-bottom:4px;">Based on your <strong>Best Match</strong> layout:</p><ul class="checklist" id="checklistUL">';
+  items.forEach((item,i)=>{html+=`<li id="cli-${i}"><input type="checkbox" id="cb-${i}" onchange="document.getElementById('cli-${i}').classList.toggle('done',this.checked)"><label for="cb-${i}">${item}</label></li>`;});
+  html+='</ul>';
+  document.getElementById('tab-checklist').innerHTML=html;
+}
+
+function renderWarnings(w){
+  const im={red:'🔴',amber:'🟡',green:'🟢'},cm={red:'warn-red',amber:'warn-amber',green:'warn-green'};
+  document.getElementById('tab-warnings').innerHTML='<div class="warnings">'+w.map(x=>`<div class="warn-item ${cm[x.level]}">${im[x.level]} ${x.msg}</div>`).join('')+'</div>';
+}
+
+function renderExtras(extras){
+  document.getElementById('tab-extras').innerHTML=extras.map(e=>`<div class="extra-card"><div class="extra-title">${e.icon} ${e.title}</div><div class="extra-desc">${e.desc}</div></div>`).join('');
+}
+
+// ═══════════════════════════════════════════
+//  RECOMMENDATION SCORING
+// ═══════════════════════════════════════════
+function score(parsed){
+  const k=parsed.keywords,layouts=[];
+  if(k.hasOnboarding||k.hasNavigation||(k.hasResource&&parsed.listDepth>=2)){let s=0;if(k.hasOnboarding)s+=40;if(k.hasNavigation)s+=20;if(k.hasResource)s+=15;if(parsed.listDepth>=2)s+=15;if(k.isLong)s+=10;layouts.push({score:Math.min(s,99),title:'Onboarding / Getting Started Hub',hero:'Large Hero – Dark Off, No Media',nav:'Left Navigation + Breadcrumb',blocks:['Content Flow','Tiles','Topic Library','Accordion'],why:'Onboarding structure, hierarchy, and resource depth — left nav hub with tiles keeps users oriented.',checklist:['Write welcoming hero headline and subhead','Organize into left-nav structure (parent → child)','Convert bullets into Content Flow steps or Tiles','Add Topic Library for reference materials','Set Breadcrumb On for all sub-pages']});}
+  if(k.hasProgram||k.hasMultiSection||parsed.sections>=4){let s=0;if(k.hasProgram)s+=35;if(k.hasMultiSection)s+=30;if(parsed.sections>=6)s+=20;if(k.hasMedia||k.hasVideo)s+=15;layouts.push({score:Math.min(s,97),title:'Feature Showcase / Program Landing',hero:'Banner Hero – Dark On',nav:'Tiles + Anchor / Jump Links',blocks:['Content Blocks','Tiles','Accordion'],why:'Multi-section content maps to bold banner hero, tiles for navigation, jump links for in-page wayfinding.',checklist:['Hero headline: program value proposition','1 Tile per major feature (3–6 tiles)','Anchor Links: tiles → sections below','Accordion: compress secondary details','Clear CTA at end of each section']});}
+  if(k.hasResource||k.hasFAQ||parsed.listRatio>0.3){let s=0;if(k.hasResource)s+=35;if(k.hasFAQ)s+=30;if(parsed.listRatio>0.3)s+=20;if(k.isLong)s+=10;if(parsed.listDepth>=2)s+=10;layouts.push({score:Math.min(s,95),title:'Resource / Knowledge Library',hero:'Small Hero – Dark Off',nav:'Left Navigation + Breadcrumb',blocks:['Topic Library','Accordion Search','Content Blocks'],why:'High list density + resource keywords — topic library with accordion search gives self-service navigation.',checklist:['Categorize resources into 3–7 topic areas','Tag each resource for Topic Library','Convert FAQs into Accordion blocks','Small Hero keeps focus below fold','Enable Left Navigation for browsing']});}
+  if(k.hasBlog)layouts.push({score:88,title:'Blog / News Hub',hero:'Banner Hero – Dark Off + Blurb',nav:'Breadcrumb + Section Navigation',blocks:['Blog','Content Blocks'],why:'Blog-style content maps to Blog feature with categories, tags, and author metadata.',checklist:['Configure Blog with categories and tags','Banner hero headline for news hub','Section Navigation for categories','Enable author display and dates','Add notification CTA in hero blurb']});
+  if(k.hasEvent)layouts.push({score:90,title:'Events & Calendar Page',hero:'Small Hero – Dark On',nav:'Breadcrumb + Anchor Links',blocks:['Events Calendar','gWiz Events System','Forms'],why:'Event content served with calendar-first layout. Anchor links separate upcoming vs. past events.',checklist:['Configure Events Calendar (date/time/timezone)','Link each event to a registration Form','Add "Submit an Event" link','Anchor Links: Upcoming / Past / All','Consider Full Page Width view']});
+  if(k.hasVideo)layouts.push({score:85,title:'Video / Media-First Page',hero:'Video Hero – Large or Autoplay',nav:'Anchor / Jump Links',blocks:['Content Blocks','Topic Library'],why:'Video-first experience: large or autoplay hero communicates value immediately.',checklist:['Embed video for hero (YouTube/Vimeo)','Autoplay only for brand pages (mute default)','Add transcript below for accessibility','Jump Links to supporting resources','Caption all videos']});
+  if(k.hasAdmin)layouts.push({score:87,title:'Admin / User Management Hub',hero:'Basic Hero – No Image',nav:'Left Navigation Hidden + Breadcrumb',blocks:['Forms','Content Blocks','Accordion'],why:'Admin pages need clarity. Simple hero + hidden left nav keeps admins focused on tasks.',checklist:['Basic Hero with functional headline','Admin tasks as Accordion (step-by-step)','Link each task to Form or settings','Left Navigation Hidden mode','Add role/permission notes per section']});
+  if(k.hasCommunity)layouts.push({score:83,title:'Community / Discussion Hub',hero:'Custom Hero Text – Banner',nav:'Section Navigation + Tiles',blocks:['Threads – Discussion','Threads – Idea','Blog'],why:'Threads + Tiles give users a visual on-ramp to different conversation spaces.',checklist:['Configure Threads (moderation settings)','Tiles for each community space','Blog for official announcements','Community Guidelines as pinned Accordion','Email notifications for Thread replies']});
+  if(k.hasForm)layouts.push({score:86,title:'Registration / Form Page',hero:'Small Hero – Dark Off',nav:'Breadcrumb',blocks:['Forms – Progress Bar','Forms – Steps','Content Blocks'],why:'Form-heavy pages need minimal hero. Progress bar or step forms reduce abandonment.',checklist:['Choose layout: One Page / Progress Bar / Steps','Hero: explain what this form is for','Add post-submission description','Group fields with section headers','Test end-to-end in incognito']});
+  if(layouts.length===0)layouts.push({score:72,title:'General Content Page',hero:'Small Hero – Dark Off',nav:'Breadcrumb',blocks:['Content Blocks','Accordion'],why:'No strong pattern detected — a clean, flexible content page is the right foundation.',checklist:['Clear headline + 1–2 sentence hero','Break into sections with subheadings','Long lists → Accordion blocks','Clear CTA at page bottom','Review against site information architecture']});
+  return layouts.sort((a,b)=>b.score-a.score).slice(0,3);
+}
+
+function getWarnings(parsed){
+  const k=parsed.keywords,w=[];
+  if(parsed.wordCount<50)         w.push({level:'red',  msg:'Very little content detected. Add more text for better recommendations.'});
+  if(k.hasVideo&&!k.hasMedia)     w.push({level:'amber',msg:'Video content detected but no image found. Add a fallback image.'});
+  if(k.hasForm&&parsed.wordCount>600)w.push({level:'amber',msg:'Long page with forms. Consider splitting into multiple pages.'});
+  if(parsed.listDepth>=3)         w.push({level:'amber',msg:'Deeply nested lists (3+ levels). WordPress renders best at 2-level max.'});
+  if(k.hasBlog&&k.hasEvent)       w.push({level:'amber',msg:'Both Blog and Events detected. Consider separate pages.'});
+  if(parsed.listRatio>0.6)        w.push({level:'amber',msg:'List-heavy content. Convert some lists to Tiles or Content Blocks.'});
+  if(!k.hasNavigation&&parsed.wordCount>400)w.push({level:'amber',msg:'Long page without navigation cues. Add Anchor/Jump Links.'});
+  if(k.isShort&&!k.hasForm&&!k.hasVideo)w.push({level:'green',msg:'Short content — perfect for a clean, focused layout!'});
+  if(k.hasAdmin&&k.hasCommunity)  w.push({level:'red',  msg:'Admin and Community content mixed. Separate into distinct pages.'});
+  if(w.length===0)w.push({level:'green',msg:'No major structural issues detected. Content is well-suited for WordPress migration!'});
+  return w;
+}
+
+function getExtras(parsed){
+  const k=parsed.keywords,e=[];
+  e.push({icon:'🔍',title:'SEO Checklist',desc:'Meta description (150–160 chars), focus keyword, H1 matches topic, alt text on all images.'});
+  e.push({icon:'♿',title:'Accessibility',desc:'Caption videos, image alt text, labeled form fields, WCAG AA color contrast.'});
+  if(k.hasFAQ||parsed.listRatio>0.3)e.push({icon:'🗂️',title:'Accordion Search',desc:'FAQ/list content is ideal for Accordion Search — users filter by keyword.'});
+  if(k.hasOnboarding||k.hasResource)e.push({icon:'📚',title:'Topic Library',desc:'Let users self-filter resources by topic, role, or stage — reduces support tickets.'});
+  if(k.hasCommunity||k.hasBlog)e.push({icon:'🔔',title:'Notifications',desc:'Set up email notifications for Blog posts and Thread replies.'});
+  if(k.hasEvent||k.hasForm)e.push({icon:'📅',title:'Calendar + Form Integration',desc:'Connect Events Calendar entries directly to Forms for seamless registration.'});
+  if(k.hasVideo)e.push({icon:'🎬',title:'Video Accessibility',desc:'Closed captions and transcript below every video. Auto-pause on scroll for autoplay.'});
+  if(parsed.wordCount>500)e.push({icon:'📄',title:'PDF / Print Version',desc:'Long-form guides benefit from a downloadable PDF version linked from the hero.'});
+  e.push({icon:'📱',title:'Mobile Preview',desc:'Always preview on mobile. Hero text, tiles, and left-nav behave differently on small screens.'});
+  e.push({icon:'🧪',title:'User Test',desc:'Share with 2–3 real users before publishing. Ask: "What is this page for? What would you do next?"'});
+  return e;
+}
+
+// ═══════════════════════════════════════════
+//  WORD EXPORT
+// ═══════════════════════════════════════════
+function exportWord() {
+  const steps  = wizardSteps;
+  const title  = document.getElementById('fileLoadedName').textContent || 'Google Sites Migration';
+
+  let html = `<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word" xmlns="http://www.w3.org/TR/REC-html40">
+<head><meta charset="UTF-8"/><title>${title}</title>
+<style>
+  body{font-family:Calibri,sans-serif;font-size:11pt;color:#000;margin:40pt;}
+  h1{font-size:18pt;color:#003762;border-bottom:2pt solid #005596;padding-bottom:6pt;margin-bottom:12pt;}
+  h2{font-size:14pt;color:#005596;margin:16pt 0 6pt;}
+  h3{font-size:11pt;color:#2F373D;font-weight:bold;margin:10pt 0 4pt;}
+  p{margin-bottom:8pt;line-height:1.5;}
+  ul,ol{margin:0 0 8pt 24pt;}
+  li{margin-bottom:3pt;}
+  .wp-note{background:#EBE6E0;padding:8pt 10pt;border-left:3pt solid #005596;margin:8pt 0;}
+  .content-preview{background:#f5f5f5;padding:8pt 10pt;border-left:3pt solid #CCE0F0;font-family:Courier New,monospace;font-size:10pt;margin:8pt 0;}
+  .step-box{border:1pt solid #CCE0F0;padding:10pt;margin:12pt 0;}
+  table{border-collapse:collapse;width:100%;margin:8pt 0;}
+  td,th{border:1pt solid #ccc;padding:6pt;font-size:10pt;}
+  th{background:#005596;color:#fff;}
+  hr{border:1pt solid #EBE6E0;margin:16pt 0;}
+</style></head><body>`;
+
+  html += `<h1>WordPress Migration Guide<br/><span style="font-size:12pt;color:#666;">${title} · Generated ${new Date().toLocaleDateString()}</span></h1>`;
+  html += `<p>This document was auto-generated from your Google Sites content. Use it as your step-by-step WordPress build guide. Each section shows the recommended WordPress block, your original content, and specific instructions.</p><hr/>`;
+
+  // Summary table
+  html += `<h2>📊 Migration Summary</h2><table><tr><th>Item</th><th>Detail</th></tr>`;
+  html += `<tr><td>Total Build Steps</td><td>${steps.length}</td></tr>`;
+  html += `<tr><td>Sections Detected</td><td>${document.getElementById('pillsRow').textContent || '—'}</td></tr>`;
+  html += `<tr><td>Generated</td><td>${new Date().toLocaleString()}</td></tr></table><hr/>`;
+
+  // Each step
+  steps.forEach((step, i) => {
+    html += `<h2>Step ${i+1}: ${step.icon} ${step.title}</h2>`;
+    html += `<div class="wp-note"><strong>WordPress Block:</strong> ${step.wpBlock.name}<br/><strong>Where to find it:</strong> ${step.wpBlock.path}</div>`;
+    if (step.content) {
+      html += `<h3>📄 Your Original Content (copy from here)</h3><div class="content-preview">${escapeHtml(step.content).replace(/\n/g,'<br/>')}</div>`;
+    }
+    html += `<h3>✅ Instructions</h3><ol>`;
+    step.instructions.forEach(inst => { html += `<li>${inst}</li>`; });
+    html += `</ol><hr/>`;
+  });
+
+  // Notes section
+  html += `<h2>📝 Copywriting Notes</h2>
+    <p>Use the content previews above to draft your WordPress copy. For each section:</p>
+    <ul>
+      <li>Copy the original text from the "Your Original Content" boxes above</li>
+      <li>Paste into the appropriate WordPress block</li>
+      <li>Edit for tone, length, and WordPress formatting as needed</li>
+      <li>Ensure headings use H2 (section) → H3 (subsection) hierarchy</li>
+      <li>Remove any Google Sites-specific navigation text that won't apply</li>
+    </ul>
+    <h2>🚀 Launch Checklist</h2>
+    <ul>
+      <li>☐ All pages published and linked correctly</li>
+      <li>☐ Navigation menu configured</li>
+      <li>☐ Hero blocks set up on all major pages</li>
+      <li>☐ All forms tested end-to-end</li>
+      <li>☐ Events calendar configured and tested</li>
+      <li>☐ Meta descriptions set on all pages</li>
+      <li>☐ All images have alt text</li>
+      <li>☐ Mobile preview done on all pages</li>
+      <li>☐ Shared with 2–3 colleagues for review</li>
+    </ul>`;
+
+  html += `</body></html>`;
+
+  const blob = new Blob([html], {type:'application/msword'});
+  const url  = URL.createObjectURL(blob);
+  const a    = document.createElement('a');
+  a.href     = url;
+  a.download = 'WordPress-Migration-Guide.doc';
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+function printWizard() {
+  window.print();
+}
+
+// ═══════════════════════════════════════════
+//  MAIN ANALYZE
+// ═══════════════════════════════════════════
+function analyze() {
+  const text = document.getElementById('contentInput').value.trim();
+  if (!text) { alert('Please upload an HTML file or paste some content first!'); return; }
+
+  const htmlMeta = uploadedHTML ? parseHTML(uploadedHTML) : null;
+  const parsed   = parseContent(text);
+  const recs     = score(parsed);
+  const warnings = getWarnings(parsed);
+  const extras   = getExtras(parsed);
+
+  // Build tagged sections for wizard
+  const segments = segmentContent(text);
+  const tagged   = segments.map((seg, i) => tagSection(seg, i));
+  const steps    = buildWizardSteps(tagged, parsed, htmlMeta);
+
+  renderStats(parsed);
+  renderWizard(steps);
+  renderAnnotated(text);
+  renderRecs(recs);
+  renderChecklist(recs[0]);
+  renderWarnings(warnings);
+  renderExtras(extras);
+
+  document.getElementById('placeholderMsg').style.display  = 'none';
+  document.getElementById('resultsContent').style.display  = 'flex';
+  document.getElementById('statsArea').style.display       = 'block';
+  document.getElementById('exportBtns').style.display      = 'flex';
+}
+
+function switchTab(id, btn) {
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-' + id).classList.add('active');
+  btn.classList.add('active');
+}
+
+function clearAll() {
+  document.getElementById('contentInput').value = '';
+  uploadedHTML = '';
+  document.getElementById('fileLoadedBar').style.display   = 'none';
+  document.getElementById('placeholderMsg').style.display  = 'flex';
+  document.getElementById('resultsContent').style.display  = 'none';
+  document.getElementById('statsArea').style.display       = 'none';
+  document.getElementById('exportBtns').style.display      = 'none';
+}
+
+function escapeHtml(str) {
+  return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+function loadDemo() {
+  uploadedHTML = '';
+  document.getElementById('fileLoadedBar').style.display = 'none';
+  document.getElementById('contentInput').value = `Getting Started with the Learning Portal
+
+Welcome to the Learning & Development Portal. This guide will help new employees navigate training resources and get the most out of your first 90 days.
+
+Navigation Guide
+- Overview
+- Programs & Courses
+- Events & Workshops
+- Resources & Templates
+- FAQ
+
+About This Portal
+Our L&D portal gives you access to self-paced learning, instructor-led workshops, and peer community spaces.
+
+Getting Started Steps
+1. Complete your profile
+2. Browse the course catalog
+3. Register for new hire orientation
+4. Connect with your onboarding buddy
+5. Attend your first team event
+
+Upcoming Events
+- New Hire Orientation – March 15, 2025
+- Leadership Workshop – April 2, 2025
+- Science Communication Webinar – April 10, 2025
+
+Frequently Asked Questions
+How do I register for a course?
+Navigate to the Events Calendar and click Register.
+
+What resources are available to me?
+Check the Resource Library for templates, guides, and toolkits.
+
+Who do I contact for help?
+Submit a request using the Help form on the Contact page.
+
+Community Discussion
+Join the conversation in our peer community space. Share ideas, ask questions, and connect with colleagues across the organization.`;
+  analyze();
+}
+</script>
+</body>
+</html>
+
+							<script>
+                            	
+							</script>
+                        </body>
+                        </html>
+                    
